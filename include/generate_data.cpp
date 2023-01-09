@@ -4,12 +4,13 @@
 #include <vector>
 #include "../MovingAverages/GenericMovingAverage.h"
 #include "generate_data.h"
+#include "../util/VectorUtils.h"
 
-using namespace std;
 
-const uint16_t averagingSize = 16;
-const uint16_t datasetSize = 8192;
+const uint16_t averagingSize = 100;
+uint16_t datasetSize = 10000;
 const uint16_t baseValue = 3300;
+const uint16_t maxNoise = 15;
 
 template <typename T>
 vector<T> generate_data::generateRandomNoiseForValue(T value, size_t sampleSize)
@@ -69,7 +70,7 @@ generate_data::~generate_data()
 {
 }
 
-float generate_data::avg(vector<uint16_t> vector)
+float generate_data::avg(vector<uint16_t>& vector)
 {
     long sum = 0;
     for (uint16_t it : vector)
@@ -91,24 +92,25 @@ int main()
 {
     GenericMovingAverage<uint16_t> *filter = new GenericMovingAverage<uint16_t>(averagingSize);
     generate_data *dataGenerator = new generate_data();
-    vector<uint16_t> test = dataGenerator->generateRandomNoiseForValue<uint16_t>(baseValue, datasetSize);
-    vector<uint16_t> diffTest = dataGenerator->calculateAbsoluteDifferencesFromValue<uint16_t>(test, baseValue);
+    VectorUtils *vUtils = new VectorUtils();
+    vector<uint16_t> test = vUtils->generateWithNoise<uint16_t>(baseValue, datasetSize, maxNoise);
+    vector<uint16_t> filtered = dataGenerator->filterArrayNoise(test, filter);
     cout << "Generated array with size: " << test.size() << endl;
     cout << endl
-         << "Generated avg: " << dataGenerator->avg(test) << endl;
+         << "Generated avg: " << vUtils->avg(test) << endl;
+    vUtils->absDiff(test, baseValue);
     cout << endl
-         << "Generated differential avg: " << dataGenerator->avg(diffTest) << endl;
-    vector<uint16_t> filtered = dataGenerator->filterArrayNoise(test, filter);
-    // dataGenerator->printArray(filtered);
+         << "Generated differential avg: " << vUtils->avg(test) << endl;
     cout << "---------------------------------" << endl;
     cout << endl
          << "Filtered array size: " << filtered.size() << endl;
     cout << endl
-         << "Filtered avg: " << dataGenerator->avg(filtered) << endl;
-    vector<uint16_t> diffFiltered = dataGenerator->calculateAbsoluteDifferencesFromValue<uint16_t>(filtered, baseValue);
-    cout << "Filtered differential avg: " << dataGenerator->avg(diffFiltered) << endl;
+         << "Filtered avg: " << vUtils->avg(filtered) << endl;
+    vUtils->absDiff(filtered, baseValue);
+    cout << "Filtered differential avg: " << vUtils->avg(filtered) << endl;
     delete filter;
-    cout << (rand() % 2) << endl;
+    delete dataGenerator;
+    delete vUtils;
 
     return 0;
 }
