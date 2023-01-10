@@ -1,5 +1,9 @@
 
-#include "GenericMovingAverage.h"
+#include "averages/GenericMovingAverage.h"
+
+#include <cstdint>
+#include <vector>
+#include <iostream>
 
 /// @brief Construct a new Generic Moving Average object With a given size
 /// @tparam T: The type of the values to be stored

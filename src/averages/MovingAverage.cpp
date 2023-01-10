@@ -11,7 +11,7 @@
 
 
 #include <string.h>
-#include "MovingAverage.h"
+#include "include/MovingAverages/averages/MovingAverage.h"
 
 /**
  * @brief Constructor for MovingAverage class

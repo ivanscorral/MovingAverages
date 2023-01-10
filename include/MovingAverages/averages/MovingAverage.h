@@ -13,7 +13,11 @@
 #ifndef __MOVING_AVERAGE__H__
 #define __MOVING_AVERAGE__H__
 
-#include "../include/ArduinoTypes.h"
+#include <iostream>
+
+using namespace std;
+
+
 
 /**
  * @enum buf_status_t

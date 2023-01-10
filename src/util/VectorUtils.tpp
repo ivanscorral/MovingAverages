@@ -41,13 +41,14 @@ vector<T> VectorUtils::generate(T value, size_t sampleSize) {
 
 template <typename T>
 float VectorUtils::avg(vector<T>& vector) {
-    // Set the sum type to the type of the vector, or int if the vector is not a floating point type    
-    float sum = 0;
-    for (T it : vector)
-    {
+    if (vector.empty()) {
+        throw invalid_argument("Cannot calculate the average of an empty vector");
+    }
+    T sum = 0;
+    for (const auto& it : vector) {
         sum += it;
     }
-    return (float)(sum / vector.size());
+    return static_cast<float>(sum) / vector.size();
 }
 
 /// @brief Prints a vector to the console

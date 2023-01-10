@@ -3,6 +3,8 @@
 
 #include <cstdint>
 #include <vector>
+#include <iostream>
+
 
 using namespace std;
 
@@ -54,6 +56,6 @@ public:
 
 // Include the template source file
 
-#include "GenericMovingAverage.tpp"
+#include "averages/GenericMovingAverage.tpp"
 
 #endif  //!__GENERIC_MOVING_AVERAGE__H__

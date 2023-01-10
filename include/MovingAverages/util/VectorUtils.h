@@ -1,7 +1,6 @@
 #ifndef __VECTORUTILS_H_
 #define __VECTORUTILS_H_
 
-#include <bits/stdc++.h>
 #include <vector>
 
 
@@ -24,6 +23,6 @@ public:
     void absDiff(vector<T>& origin, T value);
 };
 
-#include "VectorUtils.tpp"
+#include "util/VectorUtils.tpp"
 
 #endif // __VECTORUTILS_H_
