@@ -1,7 +1,6 @@
 
 #include "GenericMovingAverage.h"
 
-
 /// @brief Construct a new Generic Moving Average object With a given size
 /// @tparam T: The type of the values to be stored
 /// @param uint16_t size> The size of the buffer
@@ -71,8 +70,6 @@ T GenericMovingAverage<T>::getLastValue()
 {
     return _values.at(_index);
 }
-
-
 
 /// @brief  Get the buffer status
 /// @tparam T: The type of the values to be stored

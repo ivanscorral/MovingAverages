@@ -8,44 +8,10 @@
 
 
 const uint16_t averagingSize = 100;
-uint16_t datasetSize = 10000;
+const uint16_t datasetSize = 10000;
 const uint16_t baseValue = 3300;
 const uint16_t maxNoise = 15;
 
-/// @brief Generate a vector with random noise added to a base value
-/// @tparam T  The type of the vector
-/// @param value  The base value
-/// @param sampleSize  The size of the vector
-/// @return  The vector with random noise added or substracted to the base value
-template <typename T>
-vector<T> generate_data::generateRandomNoiseForValue(T value, size_t sampleSize)
-{    
-    vector<T> result;
-    T noiseValue;
-    T maxNoise = 15;
-    for (size_t i = 0; i < sampleSize; i++)
-    {
-        noiseValue = rand() % maxNoise;
-        result.push_back(value + ((rand() % 2) ? noiseValue : -noiseValue));
-    }
-    return result;
-}
-template <typename T>
-vector<T> generate_data::calculateAbsoluteDifferencesFromValue(vector<T> origin, T value)
-{
-    // Check if the type is unsigned, if so, make it signed
-    using S = typename conditional<is_unsigned<T>::value,
-                                   typename make_signed<T>::type,
-                                   T>::type;
-    vector<T> result;
-    // Iterate over the origin vector, calculate the absolute value of the difference and add it to the result vector
-    for (T it : origin)
-    {
-        S diff = value - it;
-        result.push_back(abs(diff));
-    }
-    return result;
-}
 template <typename T>
 vector<T> generate_data::filterArrayNoise(vector<T> origin, GenericMovingAverage<T> *filter, uint16_t averagingSize)
 {
@@ -67,31 +33,10 @@ vector<T> generate_data::filterArrayNoise(vector<T> origin, GenericMovingAverage
 
     return result;
 }
-generate_data::generate_data(/* args */)
-{
-}
 
-generate_data::~generate_data()
-{
-}
+generate_data::generate_data() { }
 
-float generate_data::avg(vector<uint16_t>& vector)
-{
-    long sum = 0;
-    for (uint16_t it : vector)
-    {
-        sum += it;
-    }
-    return (float)sum / vector.size();
-}
-
-void generate_data::printArray(vector<uint16_t> array)
-{
-    for (uint16_t it : array)
-    {
-        cout << it << " ";
-    }
-}
+generate_data::~generate_data(){ }
 
 int main()
 {

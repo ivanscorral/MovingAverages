@@ -40,7 +40,7 @@ protected:
     vector<T> _values;
 
 public:
-    
+
     explicit GenericMovingAverage(uint16_t size);
     ~GenericMovingAverage();
 
@@ -50,6 +50,9 @@ public:
     g_buf_status_t getBufferStatus();
     void clear();
 };
+
+
+// Include the template source file
 
 #include "GenericMovingAverage.tpp"
 
