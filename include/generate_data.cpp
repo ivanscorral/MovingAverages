@@ -12,6 +12,11 @@ uint16_t datasetSize = 10000;
 const uint16_t baseValue = 3300;
 const uint16_t maxNoise = 15;
 
+/// @brief Generate a vector with random noise added to a base value
+/// @tparam T  The type of the vector
+/// @param value  The base value
+/// @param sampleSize  The size of the vector
+/// @return  The vector with random noise added or substracted to the base value
 template <typename T>
 vector<T> generate_data::generateRandomNoiseForValue(T value, size_t sampleSize)
 {    

@@ -1,6 +1,11 @@
 
 #include "GenericMovingAverage.h"
 
+
+/// @brief Construct a new Generic Moving Average object With a given size
+/// @tparam T: The type of the values to be stored
+/// @param uint16_t size> The size of the buffer
+
 template <class T>
 GenericMovingAverage<T>::GenericMovingAverage(uint16_t size)
     : _bufSize(size), _index(0), _count(0)
@@ -8,11 +13,19 @@ GenericMovingAverage<T>::GenericMovingAverage(uint16_t size)
     _values.reserve(size);
 }
 
+
+/// @brief  Destroy the Generic Moving Average object
+/// @tparam T The type of the values to be stored
+
 template <class T>
 GenericMovingAverage<T>::~GenericMovingAverage()
 {
     _values.clear();
 }
+
+/// @brief Push a value to the buffer
+/// @tparam T: The type of the values to be stored
+/// @param T value: The value to be pushed
 
 template <class T>
 void GenericMovingAverage<T>::push(T value)
@@ -27,6 +40,10 @@ void GenericMovingAverage<T>::push(T value)
         _index = 0;
     }
 }
+
+/// @brief Calculate the moving average
+/// @tparam T: The type of the values to be stored
+/// @return T: The moving average   
 
 template <class T>
 T GenericMovingAverage<T>::getFilterOutput()
@@ -45,11 +62,21 @@ T GenericMovingAverage<T>::getFilterOutput()
         return returnValue;
     }
 
+/// @brief Get the last value added to the buffer
+/// @tparam T: The type of the values to be stored
+/// @return T: The last value added to the buffer
+
 template <class T>
 T GenericMovingAverage<T>::getLastValue()
 {
     return _values.at(_index);
 }
+
+
+
+/// @brief  Get the buffer status
+/// @tparam T: The type of the values to be stored
+/// @return g_buf_status_t: The status of the buffer
 
 template <class T>
 g_buf_status_t GenericMovingAverage<T>::getBufferStatus()
@@ -69,6 +96,10 @@ g_buf_status_t GenericMovingAverage<T>::getBufferStatus()
         return g_buf_status_t::BUFFER_PARTIAL;
     }
 }
+
+/// @brief Clear the buffer
+/// @tparam T: The type of the values to be stored
+/// @details Clear the buffer and reset the index and count.
 
 template <class T>
 void GenericMovingAverage<T>::clear()

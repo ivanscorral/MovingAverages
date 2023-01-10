@@ -17,7 +17,7 @@ public:
     template <typename T>
     float avg(vector<T>& vector);
     template <typename T>
-    void printArray(vector<T> array);
+    void printArray(vector<T>& array);
     template <typename T>
     vector<T> generate(T value, size_t sampleSize);
     template <typename T>
