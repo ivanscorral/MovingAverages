@@ -3,7 +3,6 @@
 
 #include <vector>
 
-
 using namespace std;
 
 class VectorUtils
@@ -14,14 +13,13 @@ public:
     template <typename T>
     vector<T> generateWithNoise(T value, size_t sampleSize, T maxNoise);
     template <typename T>
-    float avg(vector<T>& vector);
+    float avg(vector<T> &vector);
     template <typename T>
-    void printArray(vector<T>& array);
+    void printArray(vector<T> &array);
     template <typename T>
     vector<T> generate(T value, size_t sampleSize);
     template <typename T, typename S>
-    auto absDiff(vector<T>& origin, S value) -> typename enable_if<is_arithmetic<T>::value &&
-                                                                                is_arithmetic<S>::value, void>::type;
+    void absDiff(vector<T> &origin, S value);
 };
 
 #include "util/VectorUtils.tpp"

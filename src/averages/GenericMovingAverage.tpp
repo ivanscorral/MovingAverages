@@ -1,6 +1,12 @@
 
 #include "averages/GenericMovingAverage.h"
 
+template <class T>
+GenericMovingAverage<T>::~GenericMovingAverage()
+{
+    _values.clear();
+}
+
 /// @brief Push a value to the buffer
 /// @tparam T: The type of the values to be stored
 /// @param T value: The value to be pushed
@@ -29,7 +35,8 @@ T GenericMovingAverage<T>::getFilterOutput()
     T returnValue = 0;
     if (_values.size() > 0)
     {
-        T _sum = 0;
+        using sum_t = typename conditional<is_integral<T>::value, int, T>::type;
+        sum_t _sum = 0;
         for (uint16_t i = 0; i < _values.size(); i++)
         {
             _sum += _values[i];
@@ -46,7 +53,7 @@ T GenericMovingAverage<T>::getFilterOutput()
 template <class T>
 T GenericMovingAverage<T>::getLastValue()
 {
-    return _values.back();
+    return _values.at(_index);
 }
 
 /// @brief  Get the buffer status
@@ -57,13 +64,13 @@ template <class T>
 g_buf_status_t GenericMovingAverage<T>::getBufferStatus()
 {
     g_buf_status_t returnValue;
-    if (_values.size() == 0)
-    {
-        returnValue = g_buf_status_t::BUFFER_EMPTY;
-    }
-    else if (_values.size() == _bufSize)
+    if(_index != _index % _bufSize)
     {
         returnValue = g_buf_status_t::BUFFER_FULL;
+    }
+    else if(_index == 0)
+    {
+        returnValue = g_buf_status_t::BUFFER_EMPTY;
     }
     else
     {

@@ -28,7 +28,7 @@ protected:
     vector<T> _values;
 
 public:
-    explicit GenericMovingAverage(uint16_t size);
+    explicit GenericMovingAverage(int size) : _bufSize(size), _index(0), _values(size, 0) {};
     ~GenericMovingAverage();
     void push(T value);
     T getFilterOutput();

@@ -1,15 +1,13 @@
 
-#include "/include/utils/generate_data.h"
+#include "util/generate_data.h"
+#include "averages/GenericMovingAverage.h"
 
-#include "/include/MovingAverages/averages/GenericMovingAverage.h"
+using namespace std;
 
-const uint16_t averagingSize = 64;
-const uint16_t datasetSize = 10000;
-const uint16_t baseValue = 3300;
-const uint16_t maxNoise = 15;
+// TODO: Fix implementation, it's not working as expected
 
 template <typename T>
-vector<T> generate_data::filterArrayNoise(vector<T> origin, GenericMovingAverage<T> *filter, uint16_t averagingSize)
+vector<T> generate_data::filterArrayNoise(vector<T> origin, GenericMovingAverage<T> *filter, int averagingSize)
 {
     vector<T> result;
     T noiseValue;
@@ -22,11 +20,13 @@ vector<T> generate_data::filterArrayNoise(vector<T> origin, GenericMovingAverage
     {
         filter->push(noiseValue);
 
-        if(filter->getBufferStatus() == g_buf_status_t::BUFFER_FULL) {
-            result.push_back(filter->getFilterOutput());
+        if (filter->getBufferStatus() == g_buf_status_t::BUFFER_FULL)
+        {
+            auto lastValue = filter->getLastValue();
+            auto bufVal = filter->getFilterOutput();
+            result.push_back(bufVal);
         }
     }
 
     return result;
 }
-

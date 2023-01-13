@@ -15,7 +15,9 @@ public:
     generate_data(/* args */) = default;
     ~generate_data() = default;
     template <typename T>
-    vector<T> filterArrayNoise(vector<T> origin, GenericMovingAverage<T> *filter, uint16_t averagingSize = 32);
+    vector<T> filterArrayNoise(vector<T> origin, GenericMovingAverage<T> *filter, int averagingSize);
 };
+
+#include "util/generate_data.cpp"
 
 #endif //!__GENERATE_DATA__H__

@@ -6,12 +6,10 @@
 #include "util/VectorUtils.h"
 #include "averages/GenericMovingAverage.h"
 
-#define baseValue 1100
-#define datasetSize 1000
-#define maxNoise 18
-#define averagingSize 64
-
-using namespace std;
+const uint16_t averagingSize = 64;
+const uint16_t datasetSize = 10000;
+const uint16_t baseValue = 3300;
+const uint16_t maxNoise = 15;
 
 int main()
 {
@@ -19,7 +17,7 @@ int main()
     generate_data *dataGenerator = new generate_data();
     VectorUtils *vUtils = new VectorUtils();
     vector<uint16_t> test = vUtils->generateWithNoise<uint16_t>(baseValue, datasetSize, maxNoise);
-    vector<uint16_t> filtered = dataGenerator->filterArrayNoise(test, filter);
+    vector<uint16_t> filtered = dataGenerator->filterArrayNoise<uint16_t>(test, filter, averagingSize);
     cout << "Generated array with size: " << test.size() << endl;
     cout << "Generated avg: " << vUtils->avg(test) << endl;
     vUtils->absDiff(test, baseValue);

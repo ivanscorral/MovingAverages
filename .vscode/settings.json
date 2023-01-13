@@ -61,7 +61,11 @@
     "typeinfo": "cpp",
     "variant": "cpp",
     "*.tcc": "cpp",
-    "ranges": "cpp"
+    "ranges": "cpp",
+    "hash_map": "cpp",
+    "deque": "cpp",
+    "list": "cpp",
+    "unordered_set": "cpp"
   },
   "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
 }

@@ -12,12 +12,10 @@ using namespace std;
 
 template <typename T>
 vector<T> VectorUtils::generateWithNoise(T value, size_t sampleSize, T maxNoise) {
-    vector<T> result;
-    T noiseValue;
-    for (size_t i = 0; i < sampleSize; i++)
-    {
-        noiseValue = rand() % maxNoise;
-        result.push_back(value + ((rand() % 2) ? noiseValue : -noiseValue));
+    vector<T> result(sampleSize, value);
+    for (int i = 0; i < sampleSize; i++) {  
+        auto noiseValue = rand() % maxNoise;
+        result[i] += noiseValue * ((rand() % 2) ? 1 : -1);
     }
     return result;
 }
@@ -72,10 +70,10 @@ void VectorUtils::printArray(vector<T>& array) {
     
 
 template <typename T, typename S>
-auto VectorUtils::absDiff(vector<T>& origin, S value) -> typename enable_if<is_arithmetic<T>::value &&
-                                                                            is_arithmetic<S>::value, void>::type
+void VectorUtils::absDiff(vector<T>& origin, S value)
 {
+    static_assert(is_arithmetic<T>::value, "Type T must be numeric");
     for (auto& it : origin) {
-        it = abs(value - it);
+        it = static_cast<T>(abs(value - it));
     }
 }
