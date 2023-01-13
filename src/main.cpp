@@ -6,6 +6,11 @@
 #include "util/VectorUtils.h"
 #include "averages/GenericMovingAverage.h"
 
+#define baseValue 1100
+#define datasetSize 1000
+#define maxNoise 18
+#define averagingSize 64
+
 using namespace std;
 
 int main()

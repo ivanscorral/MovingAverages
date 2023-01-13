@@ -1,69 +1,43 @@
 
 #include "averages/GenericMovingAverage.h"
 
-#include <cstdint>
-#include <vector>
-#include <iostream>
-
-/// @brief Construct a new Generic Moving Average object With a given size
-/// @tparam T: The type of the values to be stored
-/// @param uint16_t size> The size of the buffer
-
-template <class T>
-GenericMovingAverage<T>::GenericMovingAverage(uint16_t size)
-    : _bufSize(size), _index(0), _count(0)
-{
-    _values.reserve(size);
-}
-
-
-/// @brief  Destroy the Generic Moving Average object
-/// @tparam T The type of the values to be stored
-
-template <class T>
-GenericMovingAverage<T>::~GenericMovingAverage()
-{
-    _values.clear();
-}
-
 /// @brief Push a value to the buffer
 /// @tparam T: The type of the values to be stored
 /// @param T value: The value to be pushed
 
 template <class T>
 void GenericMovingAverage<T>::push(T value)
-{   
-    if (_count < _bufSize)
+{
+    if (_values.size() < _bufSize)
     {
-        _count++;
+        _values.push_back(value);
     }
-    _values.push_back(value);
-    if (++_index == _bufSize)
+    else
     {
-        _index = 0;
+        _values[_index] = value;
+        _index = (_index + 1) % _bufSize;
     }
 }
 
 /// @brief Calculate the moving average
 /// @tparam T: The type of the values to be stored
-/// @return T: The moving average   
+/// @return T: The moving average
 
 template <class T>
 T GenericMovingAverage<T>::getFilterOutput()
 {
-        T returnValue = 0;
-        if (_count > 0)
+    T returnValue = 0;
+    if (_values.size() > 0)
+    {
+        T _sum = 0;
+        for (uint16_t i = 0; i < _values.size(); i++)
         {
-            using sum_type = typename conditional<is_floating_point<T>::value, T, int>::type;
-            sum_type sum = 0;
-            for (auto item: _values)
-            {
-                sum += item;
-            }
-            returnValue = sum / _values.size();
+            _sum += _values[i];
         }
-        return returnValue;
+        returnValue = _sum / _values.size();
     }
+    return returnValue;
+}
 
 /// @brief Get the last value added to the buffer
 /// @tparam T: The type of the values to be stored
@@ -72,7 +46,7 @@ T GenericMovingAverage<T>::getFilterOutput()
 template <class T>
 T GenericMovingAverage<T>::getLastValue()
 {
-    return _values.at(_index);
+    return _values.back();
 }
 
 /// @brief  Get the buffer status
@@ -82,22 +56,21 @@ T GenericMovingAverage<T>::getLastValue()
 template <class T>
 g_buf_status_t GenericMovingAverage<T>::getBufferStatus()
 {
-    if (_count == _bufSize || initialized)
+    g_buf_status_t returnValue;
+    if (_values.size() == 0)
     {
-        if (!initialized)
-            initialized = true;
-        return g_buf_status_t::BUFFER_FULL;
+        returnValue = g_buf_status_t::BUFFER_EMPTY;
     }
-    else if (_count == 0)
+    else if (_values.size() == _bufSize)
     {
-        return g_buf_status_t::BUFFER_EMPTY;
+        returnValue = g_buf_status_t::BUFFER_FULL;
     }
     else
     {
-        return g_buf_status_t::BUFFER_PARTIAL;
+        returnValue = g_buf_status_t::BUFFER_PARTIAL;
     }
+    return returnValue;
 }
-
 /// @brief Clear the buffer
 /// @tparam T: The type of the values to be stored
 /// @details Clear the buffer and reset the index and count.
@@ -106,6 +79,5 @@ template <class T>
 void GenericMovingAverage<T>::clear()
 {
     _index = 0;
-    _count = 0;
     _values.clear();
 }

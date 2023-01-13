@@ -1,18 +1,18 @@
-#ifndef __CONVOLUTEDMOVINGAVERAGE__H__
-#define __CONVOLUTEDMOVINGAVERAGE__H__
+#ifndef __CONVOLUTED_MOVING_AVERAGE__H__
+#define __CONVOLUTED_MOVING_AVERAGE__H__
 
-#include <vector>
-#include "GenericMovingAverage.h"
+#include "averages/GenericMovingAverage.h"
 
 using namespace std;
 
-class ConvolutedMovingAverage: public MovingAverage
+template <typename T>
+class ConvolutedMovingAverage : public GenericMovingAverage<T>
 {
-    private:
-        uint16_t _convolutionSize;
-    protected:
-    
-    public:
+  public:
+    ConvolutedMovingAverage(uint16_t size);
+    T getFilterOutput() override;
 };
 
-#endif  //!__CONVOLUTEDMOVINGAVERAGE__H__
+#include "averages/ConvolutedMovingAverage.tpp"
+
+#endif  //!__CONVOLUTED_MOVING_AVERAGE__H__

@@ -1,5 +1,5 @@
 
-#include "VectorUtils.h"
+#include "util/VectorUtils.h"
 
 using namespace std;
 
@@ -70,12 +70,12 @@ void VectorUtils::printArray(vector<T>& array) {
 /// @param vector<T>& origin: The vector to calculate the differences from and to store the result in
 /// @param T value: The value to calculate the differences from
     
-template <typename T>
-void VectorUtils::absDiff(vector<T>& origin, T value) {
-    for (T& it : origin)
-    {
+
+template <typename T, typename S>
+auto VectorUtils::absDiff(vector<T>& origin, S value) -> typename enable_if<is_arithmetic<T>::value &&
+                                                                            is_arithmetic<S>::value, void>::type
+{
+    for (auto& it : origin) {
         it = abs(value - it);
     }
 }
-
-

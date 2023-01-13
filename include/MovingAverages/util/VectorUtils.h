@@ -19,8 +19,9 @@ public:
     void printArray(vector<T>& array);
     template <typename T>
     vector<T> generate(T value, size_t sampleSize);
-    template <typename T>
-    void absDiff(vector<T>& origin, T value);
+    template <typename T, typename S>
+    auto absDiff(vector<T>& origin, S value) -> typename enable_if<is_arithmetic<T>::value &&
+                                                                                is_arithmetic<S>::value, void>::type;
 };
 
 #include "util/VectorUtils.tpp"
