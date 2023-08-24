@@ -20,12 +20,9 @@ vector<T> generate_data::filterArrayNoise(vector<T> origin, GenericMovingAverage
     {
         filter->push(noiseValue);
 
-        if (filter->getBufferStatus() == g_buf_status_t::BUFFER_FULL)
-        {
-            auto lastValue = filter->getLastValue();
-            auto bufVal = filter->getFilterOutput();
-            result.push_back(bufVal);
-        }
+        // Always add the filtered value to the result
+        auto bufVal = filter->getFilterOutput();
+        result.push_back(bufVal);
     }
 
     return result;

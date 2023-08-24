@@ -37,14 +37,15 @@ T GenericMovingAverage<T>::getFilterOutput()
     {
         using sum_t = typename conditional<is_integral<T>::value, int, T>::type;
         sum_t _sum = 0;
-        for (uint16_t i = 0; i < _values.size(); i++)
+        for (uint16_t i = 0; i < _index; i++) // Iterate up to _index
         {
             _sum += _values[i];
         }
-        returnValue = _sum / _values.size();
+        returnValue = _sum / (_index > 0 ? _index : 1); // Divide by _index if greater than 0, else divide by 1
     }
     return returnValue;
 }
+
 
 /// @brief Get the last value added to the buffer
 /// @tparam T: The type of the values to be stored
@@ -53,7 +54,11 @@ T GenericMovingAverage<T>::getFilterOutput()
 template <class T>
 T GenericMovingAverage<T>::getLastValue()
 {
-    return _values.at(_index);
+    if(_values.size() > 0)
+    {
+        return _values.at(_index);
+    }
+    return 0;
 }
 
 /// @brief  Get the buffer status
@@ -64,11 +69,11 @@ template <class T>
 g_buf_status_t GenericMovingAverage<T>::getBufferStatus()
 {
     g_buf_status_t returnValue;
-    if(_index != _index % _bufSize)
+    if(_values.size() == _bufSize)
     {
         returnValue = g_buf_status_t::BUFFER_FULL;
     }
-    else if(_index == 0)
+    else if(_values.empty())
     {
         returnValue = g_buf_status_t::BUFFER_EMPTY;
     }
@@ -78,6 +83,7 @@ g_buf_status_t GenericMovingAverage<T>::getBufferStatus()
     }
     return returnValue;
 }
+
 /// @brief Clear the buffer
 /// @tparam T: The type of the values to be stored
 /// @details Clear the buffer and reset the index and count.
