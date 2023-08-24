@@ -13,7 +13,7 @@ public:
     template <typename T>
     vector<T> generateWithNoise(T value, size_t sampleSize, T maxNoise);
     template <typename T>
-    float avg(vector<T> &vector);
+    T avg(const vector<T>& vec);
     template <typename T>
     void printArray(vector<T> &array);
     template <typename T>

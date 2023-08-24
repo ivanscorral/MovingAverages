@@ -13,7 +13,7 @@ using namespace std;
 template <typename T>
 vector<T> VectorUtils::generateWithNoise(T value, size_t sampleSize, T maxNoise) {
     vector<T> result(sampleSize, value);
-    for (int i = 0; i < sampleSize; i++) {  
+    for (int i = 0; i < sampleSize; i++) {
         auto noiseValue = rand() % maxNoise;
         result[i] += noiseValue * ((rand() % 2) ? 1 : -1);
     }
@@ -38,19 +38,19 @@ vector<T> VectorUtils::generate(T value, size_t sampleSize) {
 /// @return float: The average value of the vector
 
 template <typename T>
-float VectorUtils::avg(vector<T>& vector) {
-    if (vector.empty()) {
-        throw invalid_argument("Cannot calculate the average of an empty vector");
-    }
+T VectorUtils::avg(const vector<T>& vec)
+{
     T sum = 0;
-    for (const auto& it : vector) {
-        sum += it;
+    for (const T& value : vec)
+    {
+        sum += value;
     }
-    return static_cast<float>(sum) / vector.size();
+    return vec.empty() ? 0 : sum / vec.size();
 }
 
+
 /// @brief Prints a vector to the console
-/// @details Prints the vector to the console, separated by spaces 
+/// @details Prints the vector to the console, separated by spaces
 /// @tparam T: Type of the vector
 /// @param vector<T>& array: The vector to print
 
@@ -67,7 +67,7 @@ void VectorUtils::printArray(vector<T>& array) {
 /// @tparam T: Type of the vector
 /// @param vector<T>& origin: The vector to calculate the differences from and to store the result in
 /// @param T value: The value to calculate the differences from
-    
+
 
 template <typename T, typename S>
 void VectorUtils::absDiff(vector<T>& origin, S value)
